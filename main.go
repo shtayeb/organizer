@@ -10,9 +10,9 @@ import (
 
 func main() {
 
-	path := "C:\\Users\\shahr\\Downloads\\"
+	path, _ := os.Getwd()
 
-	// Get list of files in the Downloads path
+	// Get list of files in the working directory
 	entries, err := os.ReadDir(path)
 
 	if err != nil {

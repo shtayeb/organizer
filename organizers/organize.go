@@ -7,12 +7,13 @@ import (
 
 func OrganizeFiles(path, fullFileName string) {
 
-	folderName := "Others"
+	var folderName string
 
 	fullNameArray := strings.Split(fullFileName, ".")
 	fileExt := fullNameArray[len(fullNameArray)-1]
 
-	if isImage(fileExt) {
+	switch {
+	case isImage(fileExt):
 		fileName := strings.Split(fullFileName, ".")[0][1:]
 		startsWithUnderscore := strings.HasPrefix(fullFileName, "_")
 
@@ -21,12 +22,14 @@ func OrganizeFiles(path, fullFileName string) {
 		} else {
 			folderName = "Images"
 		}
-	} else if isDocument(fileExt) {
+	case isDocument(fileExt):
 		folderName = "Documents"
-	} else if isProgram(fileExt) {
+	case isProgram(fileExt):
 		folderName = "Programs"
-	} else if isTextFile(fileExt) {
+	case isTextFile(fileExt):
 		folderName = "Text Files"
+	default:
+		folderName = "Others"
 	}
 
 	directory := path + folderName
