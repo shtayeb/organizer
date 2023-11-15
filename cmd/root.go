@@ -2,40 +2,40 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 	"os"
 
+	"github.com/shtayeb/go-organizer/cmd/organizers"
 	"github.com/spf13/cobra"
 )
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:     "organizer",
-	Version: "0.1.0",
+	Version: "0.1.1",
 	Short:   "A CLI app to organize your files into folders according to their extensions.",
 	Run: func(cmd *cobra.Command, args []string) {
 
-		fmt.Println("Hello World!")
+		path, _ := os.Getwd()
 
-		// path, _ := os.Getwd()
+		// Get list of files in the working directory
+		entries, err := os.ReadDir(path)
 
-		// // Get list of files in the working directory
-		// entries, err := os.ReadDir(path)
+		if err != nil {
+			log.Fatal(err)
+		}
 
-		// if err != nil {
-		// 	log.Fatal(err)
-		// }
+		for _, entry := range entries {
+			if entry.IsDir() {
+				continue
+			}
 
-		// for _, entry := range entries {
-		// 	if entry.IsDir() {
-		// 		continue
-		// 	}
+			fullFileName := entry.Name()
+			organizers.OrganizeFiles(path, fullFileName)
 
-		// 	fullFileName := entry.Name()
-		// 	organizers.OrganizeFiles(path, fullFileName)
+		}
 
-		// }
-
-		// fmt.Printf("Program run !")
+		fmt.Printf("Organizer Finished Execution !")
 	},
 }
 
