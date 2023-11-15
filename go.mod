@@ -1,6 +1,6 @@
 module github.com/shtayeb/go-organizer
 
-go 1.21.3
+go 1.21
 
 require github.com/google/uuid v1.3.1 // direct
 
