@@ -1,8 +1,3 @@
-before:
-  hooks:
-    - go mod tidy
-    - go generate ./...
-
 builds:
   - <<: &build_defaults
       binary: organizer
