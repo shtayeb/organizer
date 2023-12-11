@@ -28,6 +28,8 @@ func OrganizeFiles(path, fullFileName string) {
 		folderName = "Programs"
 	case isTextFile(fileExt):
 		folderName = "Text Files"
+	case isCompressedFile(fileExt):
+		folderName = "Compressed"
 	default:
 		folderName = "Others"
 	}

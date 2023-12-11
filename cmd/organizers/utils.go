@@ -7,10 +7,50 @@ import (
 	"github.com/google/uuid"
 )
 
-var IMAGE_EXTS = []string{"png", "jpg", "webp", "gif", "jpeg", "svg"}
-var DOCUMENT_EXTS = []string{"pdf", "doc", "docx", "ppt", "pptx"}
-var PROGRAM_EXTS = []string{"exe", "apk", "deb", "msi"}
+var IMAGE_EXTS = []string{"png", "jpg", "webp", "gif", "jpeg", "svg", "tiff", "psd", "cr2", "crw", "arw", "bmp"}
+var DOCUMENT_EXTS = []string{"pdf", "doc", "docx", "ppt", "pptx", "xls", "xlsx"}
+var PROGRAM_EXTS = []string{"exe", "apk", "deb", "msi", "dmg"}
 var TEXTFILE_EXTS = []string{"txt", "md"}
+var COMPRESSED_EXTS = []string{
+	"zip",
+	"rar",
+	"7z",
+	"tgz",
+	"tar.gz",
+	"txz",
+	"arc",
+	"arj",
+	"as",
+	"b64",
+	"btoa",
+	"bz",
+	"bz2",
+	"cab",
+	"cpt",
+	"gz",
+	"hqx",
+	"iso",
+	"lha",
+	"lzh",
+	"mim",
+	"mme",
+	"pak",
+	"pf",
+	"rar",
+	"rpm",
+	"sea",
+	"sit",
+	"sitx",
+	"tbz",
+	"tbz2",
+	"tgz",
+	"uu",
+	"uue",
+	"z",
+	"zip",
+	"zipx",
+	"zoo",
+}
 
 func isImage(ext string) bool {
 	return slices.Contains(IMAGE_EXTS, ext)
@@ -26,6 +66,10 @@ func isProgram(ext string) bool {
 
 func isTextFile(ext string) bool {
 	return slices.Contains(TEXTFILE_EXTS, ext)
+}
+
+func isCompressedFile(ext string) bool {
+	return slices.Contains(COMPRESSED_EXTS, ext)
 }
 
 func IsValidUUID(u string) bool {
