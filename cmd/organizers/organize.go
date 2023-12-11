@@ -1,6 +1,7 @@
 package organizers
 
 import (
+	"fmt"
 	"path/filepath"
 	"strings"
 )
@@ -35,6 +36,8 @@ func OrganizeFiles(path, fullFileName string) {
 	directory := path + folderName
 	oldPath := filepath.Join(path, fullFileName)
 	newPath := filepath.Join(directory, fullFileName)
+
+	fmt.Printf("New Path: %s \n", newPath)
 
 	moveFiles(directory, oldPath, newPath)
 }

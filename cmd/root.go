@@ -18,6 +18,8 @@ var rootCmd = &cobra.Command{
 
 		path, _ := os.Getwd()
 
+		fmt.Printf("Working Direcotry: %s", path)
+
 		// Get list of files in the working directory
 		entries, err := os.ReadDir(path)
 
