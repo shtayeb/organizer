@@ -9,7 +9,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var path string
+var (
+	path             string
+	weekly           bool
+	monthly          bool
+	workingDirectory bool
+)
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -18,12 +23,16 @@ var rootCmd = &cobra.Command{
 	Short:   "A CLI app to organize your files into folders according to their extensions.",
 	Run: func(cmd *cobra.Command, args []string) {
 		if path == "" {
-			wdPath, _ := os.Getwd()
 
+			if !workingDirectory {
+				log.Panic("Must provide a path or working working directory (-d) flag")
+			}
+
+			wdPath, _ := os.Getwd()
 			path = wdPath
 		}
 
-		fmt.Printf("Working Direcotry: %s \n", path)
+		fmt.Printf("Direcotry: %s \n", path)
 
 		// Get list of files in the working directory
 		entries, err := os.ReadDir(path)
@@ -39,6 +48,15 @@ var rootCmd = &cobra.Command{
 			fullFileName := entry.Name()
 			organizers.OrganizeFiles(path, fullFileName)
 
+		}
+
+		// Schedule the command here
+		command := "Organizer --path=" + path
+		if weekly {
+			organizers.ScheduleCommand(command, "--weekly")
+		}
+		if monthly {
+			organizers.ScheduleCommand(command, "--monthly")
 		}
 
 		fmt.Printf("Organizer Finished Execution ! \n")
@@ -57,4 +75,13 @@ func Execute() {
 func init() {
 	rootCmd.Flags().
 		StringVarP(&path, "path", "p", "", "Absolute path to the directory you want to organize. Default is working directory.")
+
+	rootCmd.Flags().
+		BoolVarP(&workingDirectory, "woking-dir", "d", false, "Organize working directory")
+
+	rootCmd.Flags().
+		BoolVarP(&weekly, "weekly", "w", false, "Schedule the command weekly")
+
+	rootCmd.Flags().
+		BoolVarP(&monthly, "monthly", "m", false, "Schedule the command monthly")
 }
