@@ -9,20 +9,24 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var path string
+
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:     "organizer",
 	Version: "0.2.3",
 	Short:   "A CLI app to organize your files into folders according to their extensions.",
 	Run: func(cmd *cobra.Command, args []string) {
+		if path == "" {
+			wdPath, _ := os.Getwd()
 
-		path, _ := os.Getwd()
+			path = wdPath
+		}
 
 		fmt.Printf("Working Direcotry: %s \n", path)
 
 		// Get list of files in the working directory
 		entries, err := os.ReadDir(path)
-
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -48,4 +52,9 @@ func Execute() {
 	if err != nil {
 		os.Exit(1)
 	}
+}
+
+func init() {
+	rootCmd.Flags().
+		StringVarP(&path, "path", "p", "", "Absolute path to the directory you want to organize. Default is working directory.")
 }
