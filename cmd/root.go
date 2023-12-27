@@ -63,6 +63,14 @@ var rootCmd = &cobra.Command{
 	},
 }
 
+var listScheduledCmd = &cobra.Command{
+	Use:   "list",
+	Short: "List all Organizer scheduled tasks.",
+	Run: func(cmd *cobra.Command, args []string) {
+		organizers.ListScheduledTasks()
+	},
+}
+
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
@@ -74,7 +82,13 @@ func Execute() {
 
 func init() {
 	rootCmd.Flags().
-		StringVarP(&path, "path", "p", "", "Absolute path to the directory you want to organize. Default is working directory.")
+		StringVarP(
+			&path,
+			"path",
+			"p",
+			"",
+			"Absolute path to the directory you want to organize. Default is working directory.",
+		)
 
 	rootCmd.Flags().
 		BoolVarP(&workingDirectory, "woking-dir", "d", false, "Organize working directory")
@@ -84,4 +98,6 @@ func init() {
 
 	rootCmd.Flags().
 		BoolVarP(&monthly, "monthly", "m", false, "Schedule the command monthly")
+
+	rootCmd.AddCommand(listScheduledCmd)
 }

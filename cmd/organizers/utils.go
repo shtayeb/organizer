@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"runtime"
 	"slices"
+	"strings"
 
 	"github.com/google/uuid"
 )
@@ -113,6 +114,10 @@ func moveFiles(directory, oldPath, newPath string) {
 	}
 }
 
+// Schedule Command
+
+var taskMarker = "OrganizerScheduledTask"
+
 func ScheduleCommand(command string, scheduleType string) {
 	switch runtime.GOOS {
 	case "windows":
@@ -126,7 +131,7 @@ func ScheduleCommand(command string, scheduleType string) {
 
 func scheduleWindowsTask(command string, scheduleType string) {
 	// Use schtasks to schedule a command on Windows
-	taskName := "OrganizerScheduledTask"
+	taskName := taskMarker + "-" + uuid.NewString()
 	schedule := "/sc"
 	interval := "1"
 
@@ -190,4 +195,75 @@ func scheduleUnixCommand(command string, scheduleType string) {
 	} else {
 		fmt.Printf("Command scheduled on Linux/macOS (%s)\n", scheduleType)
 	}
+}
+
+// List scheduled commands
+func ListScheduledTasks() {
+	switch runtime.GOOS {
+	case "windows":
+		listWindowsTasks()
+	case "linux", "darwin":
+		listUnixTasks()
+	default:
+		fmt.Println("Unsupported operating system")
+	}
+}
+
+func printTasksByMarker(tasksOutput string) {
+	lines := strings.Split(tasksOutput, "\n")
+	header := strings.Split(lines[0], ",")
+	taskNameIndex := -1
+
+	for i, h := range header {
+		if strings.TrimSpace(h) == "\"TaskName\"" {
+			taskNameIndex = i
+			break
+		}
+	}
+
+	if taskNameIndex == -1 {
+		fmt.Println("TaskName not found in the CSV headers.")
+		return
+	}
+
+	for _, line := range lines[2:] {
+		fields := strings.Split(line, ",")
+		if len(fields) > taskNameIndex {
+			taskName := strings.Trim(fields[taskNameIndex], "\"")
+			if strings.Contains(taskName, taskMarker) {
+				fmt.Println("Scheduled Task Information:")
+				for i, h := range header {
+					fmt.Printf("%s: %s\n", h, strings.Trim(fields[i], "\""))
+				}
+				fmt.Println(strings.Repeat("-", 30))
+			}
+		}
+	}
+}
+
+func listWindowsTasks() {
+	// Use schtasks to list tasks on Windows
+	// /TN "OrganizerScheduledTask"
+	cmd := exec.Command("schtasks", "/query", "/fo", "csv", "/v")
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Printf("Error listing tasks on Windows: %v\n", err)
+		return
+	}
+
+	// fmt.Printf("Scheduled Tasks on Windows:\n%s\n", output)
+	printTasksByMarker(string(output))
+}
+
+func listUnixTasks() {
+	// Use atq to list tasks on Linux/macOS
+	cmd := exec.Command("atq")
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Printf("Error listing tasks on Linux/macOS: %v\n", err)
+		return
+	}
+
+	// fmt.Printf("Scheduled Tasks on Linux/macOS:\n%s\n", output)
+	printTasksByMarker(string(output))
 }
