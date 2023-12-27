@@ -165,33 +165,16 @@ func scheduleUnixCommand(command string, scheduleType string) {
 		return
 	}
 
-	cmd.Stdin = os.Stdin
+	// Include a comment as a marker in the command
+	// commentMarker := "# Task Marker: test"
+	// cmd.Args = append(cmd.Args, fmt.Sprintf("echo \"%s\" 2>&1 && %s", commentMarker, command))
+
+
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 
-	stdin, err := cmd.StdinPipe()
-	if err != nil {
-		fmt.Printf("Error creating stdin pipe: %v\n", err)
-		return
-	}
-
-	if err := cmd.Start(); err != nil {
-		fmt.Printf("Error starting command: %v\n", err)
-		return
-	}
-
-	// Write the command to the at command's stdin
-	_, err = stdin.Write([]byte(command + "\n"))
-	if err != nil {
-		fmt.Printf("Error writing to stdin: %v\n", err)
-	}
-
-	if err := stdin.Close(); err != nil {
-		fmt.Printf("Error closing stdin: %v\n", err)
-	}
-
-	if err := cmd.Wait(); err != nil {
-		fmt.Printf("Error waiting for command: %v\n", err)
+	if err := cmd.Run(); err != nil {
+		fmt.Printf("Error scheduling command on Linux/macOS: %v\n", err)
 	} else {
 		fmt.Printf("Command scheduled on Linux/macOS (%s)\n", scheduleType)
 	}
@@ -264,6 +247,6 @@ func listUnixTasks() {
 		return
 	}
 
-	// fmt.Printf("Scheduled Tasks on Linux/macOS:\n%s\n", output)
-	printTasksByMarker(string(output))
+	fmt.Printf("Scheduled Tasks on Linux/macOS:\n%s\n", output)
+	// printTasksByMarker(string(output))
 }
