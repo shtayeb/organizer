@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/shtayeb/go-organizer/cmd/organizers"
+	"github.com/shtayeb/go-organizer/cmd/schedulers"
 	"github.com/spf13/cobra"
 )
 
@@ -53,10 +54,10 @@ var rootCmd = &cobra.Command{
 		// Schedule the command here
 		command := "Organizer --path=" + path
 		if weekly {
-			organizers.ScheduleCommand(command, "--weekly")
+			schedulers.ScheduleCommand(command, "--weekly")
 		}
 		if monthly {
-			organizers.ScheduleCommand(command, "--monthly")
+			schedulers.ScheduleCommand(command, "--monthly")
 		}
 
 		fmt.Printf("Organizer Finished Execution ! \n")
@@ -67,7 +68,7 @@ var listScheduledCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all Organizer scheduled tasks.",
 	Run: func(cmd *cobra.Command, args []string) {
-		organizers.ListScheduledTasks()
+		schedulers.ListScheduledTasks()
 	},
 }
 
