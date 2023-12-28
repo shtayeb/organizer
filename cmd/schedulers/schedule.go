@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"runtime"
 	"strings"
 
@@ -12,13 +13,36 @@ import (
 
 var taskMarker = "OrganizerScheduledTask"
 
+func getExecutablePath() (string, error) {
+	executable, err := os.Executable()
+	if err != nil {
+		return "", err
+	}
+
+	// If the executable is a symbolic link, resolve it to get the actual path
+	if link, err := os.Readlink(executable); err == nil {
+		return filepath.Clean(link), nil
+	}
+
+	return filepath.Clean(executable), nil
+}
+
 // Schedule a command
-func ScheduleCommand(command string, scheduleType string) {
+func ScheduleCommand(path string, scheduleType string) {
+	executablePath, err := getExecutablePath()
+	if err != nil {
+		executablePath = "Organizer"
+		fmt.Printf("Error getting executable path defaulting to 'Organizer' %v\n", err)
+	}
+
 	switch runtime.GOOS {
 	case "windows":
+		command := "\"" + executablePath + "\"" + " --path=" + path
 		scheduleWindowsTask(command, scheduleType)
 	case "linux", "darwin":
+		command := "\"" + executablePath + "\"" + " --path=" + path
 		scheduleUnixCommand(command, scheduleType)
+
 	default:
 		fmt.Println("Unsupported operating system")
 	}

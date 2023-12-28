@@ -52,12 +52,17 @@ var rootCmd = &cobra.Command{
 		}
 
 		// Schedule the command here
-		command := "Organizer --path=" + path
-		if weekly {
-			schedulers.ScheduleCommand(command, "--weekly")
-		}
-		if monthly {
-			schedulers.ScheduleCommand(command, "--monthly")
+		// The below could be better
+
+		if weekly || monthly {
+
+			if weekly {
+				schedulers.ScheduleCommand(path, "--weekly")
+			}
+			if monthly {
+				schedulers.ScheduleCommand(path, "--monthly")
+			}
+
 		}
 
 		fmt.Printf("Organizer Finished Execution ! \n")
