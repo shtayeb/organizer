@@ -183,6 +183,6 @@ func listUnixTasks() {
 		return
 	}
 
-	// fmt.Printf("Scheduled Tasks on Linux/macOS:\n%s\n", output)
-	printTasksByMarker(string(output))
+	fmt.Printf("Scheduled Tasks on Linux/macOS:\n%s\n", output)
+	// printTasksByMarker(string(output))
 }
