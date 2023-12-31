@@ -2,6 +2,7 @@ package schedulers
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -13,7 +14,7 @@ import (
 
 var taskMarker = "OrganizerScheduledTask"
 
-func getExecutablePath() (string, error) {
+func GetExecutablePath() (string, error) {
 	executable, err := os.Executable()
 	if err != nil {
 		return "", err
@@ -29,10 +30,11 @@ func getExecutablePath() (string, error) {
 
 // Schedule a command
 func ScheduleCommand(path string, scheduleType string) {
-	executablePath, err := getExecutablePath()
+	executablePath, err := GetExecutablePath()
 	if err != nil {
 		executablePath = "Organizer"
-		fmt.Printf("Error getting executable path defaulting to 'Organizer' %v\n", err)
+		log.Printf("Error getting executable path defaulting to 'Organizer' %v\n", err)
+
 	}
 
 	switch runtime.GOOS {
@@ -44,7 +46,8 @@ func ScheduleCommand(path string, scheduleType string) {
 		scheduleUnixCommand(command, scheduleType)
 
 	default:
-		fmt.Println("Unsupported operating system")
+		log.Println("Unsupported operating system")
+
 	}
 }
 
@@ -64,9 +67,9 @@ func scheduleWindowsTask(command string, scheduleType string) {
 	cmd := exec.Command("schtasks", "/create", "/tn", taskName, "/tr", command, schedule, interval)
 	err := cmd.Run()
 	if err != nil {
-		fmt.Printf("Error scheduling task on Windows: %v\n", err)
+		log.Printf("Error scheduling task on Windows: %v\n", err)
 	} else {
-		fmt.Printf("Task scheduled on Windows (%s)\n", scheduleType)
+		log.Printf("Task scheduled on Windows (%s)\n", scheduleType)
 	}
 }
 
@@ -80,7 +83,7 @@ func scheduleUnixCommand(command string, scheduleType string) {
 	case "--monthly":
 		cmd.Args = append(cmd.Args, "+1 month")
 	default:
-		fmt.Println("Invalid schedule type")
+		log.Println("Invalid schedule type")
 		return
 	}
 
@@ -92,9 +95,9 @@ func scheduleUnixCommand(command string, scheduleType string) {
 	cmd.Stderr = os.Stderr
 
 	if err := cmd.Run(); err != nil {
-		fmt.Printf("Error scheduling command on Linux/macOS: %v\n", err)
+		log.Printf("Error scheduling command on Linux/macOS: %v\n", err)
 	} else {
-		fmt.Printf("Command scheduled on Linux/macOS (%s)\n", scheduleType)
+		log.Printf("Command scheduled on Linux/macOS (%s)\n", scheduleType)
 	}
 }
 
@@ -106,7 +109,7 @@ func ListScheduledTasks() {
 	case "linux", "darwin":
 		listUnixTasks()
 	default:
-		fmt.Println("Unsupported operating system")
+		log.Println("Unsupported operating system")
 	}
 }
 
@@ -123,7 +126,7 @@ func printTasksByMarker(tasksOutput string) {
 	}
 
 	if taskNameIndex == -1 {
-		fmt.Println("TaskName not found in the CSV headers.")
+		log.Println("TaskName not found in the CSV headers.")
 		return
 	}
 

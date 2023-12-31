@@ -1,9 +1,10 @@
 package cmd
 
 import (
-	"fmt"
+	"io"
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/shtayeb/go-organizer/cmd/organizers"
 	"github.com/shtayeb/go-organizer/cmd/schedulers"
@@ -33,7 +34,7 @@ var rootCmd = &cobra.Command{
 			path = wdPath
 		}
 
-		fmt.Printf("Direcotry: %s \n", path)
+		log.Printf("Direcotry to be organized: %s \n", path)
 
 		// Get list of files in the working directory
 		entries, err := os.ReadDir(path)
@@ -65,7 +66,7 @@ var rootCmd = &cobra.Command{
 
 		}
 
-		fmt.Printf("Organizer Finished Execution ! \n")
+		log.Printf("Organizer Finished Execution successfully ! \n")
 	},
 }
 
@@ -80,8 +81,34 @@ var listScheduledCmd = &cobra.Command{
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
-	err := rootCmd.Execute()
+	// Setup logging to file
+	executablePath, err := schedulers.GetExecutablePath()
 	if err != nil {
+		log.Panicf("Error getting executable path and that is BAD", err)
+	}
+
+	executableDir := filepath.Dir(executablePath)
+	logFilePath := filepath.Join(executableDir, "organizer-cli.log")
+
+	logFile, err := os.OpenFile(logFilePath, os.O_APPEND|os.O_RDWR|os.O_CREATE, 0644)
+	if err != nil {
+		log.Printf(err.Error())
+	}
+
+	defer logFile.Close()
+
+	// redirect all the output to file
+	wrt := io.MultiWriter(os.Stdout, logFile)
+
+	// set log out put
+	log.SetOutput(wrt)
+
+	// optional: log date-time, filename, and line number
+	log.SetPrefix("ORGANIZER CLI: ")
+
+	// Execute the command
+	cmdErr := rootCmd.Execute()
+	if cmdErr != nil {
 		os.Exit(1)
 	}
 }
