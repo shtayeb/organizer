@@ -1,4 +1,4 @@
-## Go Organizer
+## Organizer CLI
 A CLI App that organizes files by their types and recognize Bing generated images and organize them in a folder.
 
 
