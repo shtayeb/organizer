@@ -31,7 +31,9 @@ Get help
 ```shell
 organizer -h
 ```
-
+## Logs
+You can find the applicatin log file in the same directory as the app executable.
+The log file is named `organizer-cli.log`
 
 ### Directories
 - AI Images
@@ -42,6 +44,3 @@ organizer -h
 - Compressed
 - Others
 
-## Todo
-
-- Create a log file to output errors to it
