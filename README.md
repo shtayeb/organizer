@@ -1,6 +1,7 @@
 ## Organizer CLI
+![organizer-github-preview](https://github.com/shtayeb/Organizer-Script/assets/48182832/8bff8cee-c0de-45b4-ae17-9a76f2e9cd78)
+#
 A CLI App that organizes files by their types and recognize Bing generated images and organize them in a folder.
-
 
 ## Download 
 [Download](https://github.com/shtayeb/Organizer-Script/releases)
