@@ -48,3 +48,5 @@ The log file is named `organizer-cli.log`
 - Compressed
 - Others
 
+## Contributing
+You are free to create pull request for bug fixes and new features.
