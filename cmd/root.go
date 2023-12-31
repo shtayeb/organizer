@@ -124,7 +124,7 @@ func init() {
 		)
 
 	rootCmd.Flags().
-		BoolVarP(&workingDirectory, "woking-dir", "d", false, "Organize working directory")
+		BoolVarP(&workingDirectory, "working-dir", "d", false, "Organize working directory")
 
 	rootCmd.Flags().
 		BoolVarP(&weekly, "weekly", "w", false, "Schedule the command weekly")

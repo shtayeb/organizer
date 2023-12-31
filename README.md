@@ -18,7 +18,11 @@ organizer --path=/home/username/Downloads
 ```
 Will organize the working directory.
 ```shell
-organizer -w
+organizer -d
+
+# or
+
+organizer --working-dir
 ```
 
 Will organize the `Downloads` directory and schedule the command.
