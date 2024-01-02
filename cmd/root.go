@@ -84,7 +84,7 @@ func Execute() {
 	// Setup logging to file
 	executablePath, err := schedulers.GetExecutablePath()
 	if err != nil {
-		log.Panicf("Error getting executable path and that is BAD", err)
+		log.Panicf("Error getting executable path and that is BAD: %s", err)
 	}
 
 	executableDir := filepath.Dir(executablePath)
@@ -92,7 +92,7 @@ func Execute() {
 
 	logFile, err := os.OpenFile(logFilePath, os.O_APPEND|os.O_RDWR|os.O_CREATE, 0644)
 	if err != nil {
-		log.Printf(err.Error())
+		log.Println(err.Error())
 	}
 
 	defer logFile.Close()
