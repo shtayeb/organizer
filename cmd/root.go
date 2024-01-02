@@ -21,7 +21,7 @@ var (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:     "organizer",
-	Version: "0.2.3",
+	Version: "0.3.0",
 	Short:   "A CLI app to organize your files into folders according to their extensions.",
 	Run: func(cmd *cobra.Command, args []string) {
 		if path == "" {
