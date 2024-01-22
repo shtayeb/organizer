@@ -11,6 +11,7 @@ A CLI App that organizes files by their types and recognize Bing generated image
 - [Download Binary](https://github.com/shtayeb/Organizer-Script/releases)
 
 ## Why?
+My download folder was getting cluttered with alot of files and I was scrolling alot to find the file that I wanted. so I create this CLI app to organize my download folder priodically based on the file type of the files.
 
 
 ## Demo
