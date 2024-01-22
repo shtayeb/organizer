@@ -82,3 +82,12 @@ The log file is named `organizer-cli.log`
 
 ## Contributing
 You are free to create pull request for bug fixes and new features.
+- Clone the project
+    ```shell
+    git clone https://github.com/shtayeb/organizer.git
+    ```
+- Build
+    ```shell
+    go build
+    ```
+- Create pull request
