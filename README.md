@@ -11,35 +11,59 @@ https://github.com/shtayeb/Organizer-Script/assets/48182832/b5d6a9d7-a76d-4500-b
 
 
 ## Usage
-Will organize the `Downloads` directory once.
+- Organize the `Downloads` directory once.
+    ```shell
+    organizer --path=/home/username/Downloads
+    ```
 
-```shell
-organizer --path=/home/username/Downloads
-```
-Will organize the working directory.
-```shell
-organizer -d
+- Organize the working directory.
+    ```shell
+    organizer -d
 
-# or
+    # or
 
-organizer --working-dir
-```
+    organizer --working-dir
+    ```
 
-Will organize the `Downloads` directory and schedule the command.
+- Organize the `Downloads` directory and schedule the command.
 
-```shell
-organizer --path=/home/username/Downloads --weekly
-organizer --path=/home/username/Downloads --monthly
-```
-Get help
-```shell
-organizer -h
-```
+    ```shell
+    organizer --path=/home/username/Downloads --weekly
+    organizer --path=/home/username/Downloads --monthly
+    ```
+
+- Get help
+    ```shell
+    organizer -h
+    ```
+    ```shell
+    A CLI app to organize your files into folders according to their extensions.
+
+    Usage:
+    organizer [flags]
+    organizer [command]
+
+    Available Commands:
+    completion  Generate the autocompletion script for the specified shell
+    help        Help about any command
+    list        List all Organizer scheduled tasks.
+
+    Flags:
+    -h, --help          help for organizer
+    -m, --monthly       Schedule the command monthly
+    -p, --path string   Absolute path to the directory you want to organize. Default is working directory.
+    -v, --version       version for organizer
+    -w, --weekly        Schedule the command weekly
+    -d, --working-dir   Organize working directory
+
+    Use "organizer [command] --help" for more information about a command.
+    ``
+
 ## Logs
 You can find the applicatin log file in the same directory as the app executable.
 The log file is named `organizer-cli.log`
 
-### Directories
+## Directories
 - AI Images
 - Images
 - Documents

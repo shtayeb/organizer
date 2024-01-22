@@ -6,8 +6,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/shtayeb/go-organizer/cmd/organizers"
-	"github.com/shtayeb/go-organizer/cmd/schedulers"
+	"github.com/shtayeb/organizer/cmd/organizers"
+	"github.com/shtayeb/organizer/cmd/schedulers"
 	"github.com/spf13/cobra"
 )
 
@@ -21,7 +21,7 @@ var (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:     "organizer",
-	Version: "0.3.0",
+	Version: "0.3.1",
 	Short:   "A CLI app to organize your files into folders according to their extensions.",
 	Run: func(cmd *cobra.Command, args []string) {
 		if path == "" {

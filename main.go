@@ -1,6 +1,6 @@
 package main
 
-import "github.com/shtayeb/go-organizer/cmd"
+import "github.com/shtayeb/organizer/cmd"
 
 func main() {
 	cmd.Execute()

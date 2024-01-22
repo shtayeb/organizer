@@ -1,4 +1,4 @@
-module github.com/shtayeb/go-organizer
+module github.com/shtayeb/organizer
 
 go 1.21
 
