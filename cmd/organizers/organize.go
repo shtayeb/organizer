@@ -6,7 +6,6 @@ import (
 )
 
 func OrganizeFiles(path, fullFileName string) {
-
 	var folderName string
 
 	fullNameArray := strings.Split(fullFileName, ".")
@@ -30,6 +29,8 @@ func OrganizeFiles(path, fullFileName string) {
 		folderName = "Text Files"
 	case isCompressedFile(fileExt):
 		folderName = "Compressed"
+	case isVideoFile(fileExt):
+		folderName = "Videos"
 	default:
 		folderName = "Others"
 	}

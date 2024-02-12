@@ -25,6 +25,7 @@ var (
 	DOCUMENT_EXTS   = []string{"pdf", "doc", "docx", "ppt", "pptx", "xls", "xlsx"}
 	PROGRAM_EXTS    = []string{"exe", "apk", "deb", "msi", "dmg"}
 	TEXTFILE_EXTS   = []string{"txt", "md"}
+	VIDEO_EXTS      = []string{"mp4", "mov", "avi", "wmv", "webm", "flv"}
 	COMPRESSED_EXTS = []string{
 		"zip",
 		"rar",
@@ -81,6 +82,10 @@ func isProgram(ext string) bool {
 
 func isTextFile(ext string) bool {
 	return slices.Contains(TEXTFILE_EXTS, ext)
+}
+
+func isVideoFile(ext string) bool {
+	return slices.Contains(VIDEO_EXTS, ext)
 }
 
 func isCompressedFile(ext string) bool {
