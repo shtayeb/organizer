@@ -1,13 +1,16 @@
 package cmd
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"os"
 	"path/filepath"
 
+	tea "github.com/charmbracelet/bubbletea"
 	"github.com/shtayeb/organizer/cmd/organizers"
 	"github.com/shtayeb/organizer/cmd/schedulers"
+	"github.com/shtayeb/organizer/cmd/tui"
 	"github.com/spf13/cobra"
 )
 
@@ -70,11 +73,30 @@ var rootCmd = &cobra.Command{
 	},
 }
 
+var tuiCommand = &cobra.Command{
+	Use:   "tui",
+	Short: "Start the Organizer TUI interface.",
+	Run: func(cmd *cobra.Command, args []string) {
+		_, err := tea.NewProgram(
+			tui.NewModel(),
+			tea.WithAltScreen(),
+			tea.WithMouseCellMotion(),
+		).Run()
+
+		if err != nil {
+			fmt.Println("Oh no:", err)
+			os.Exit(1)
+		}
+
+	},
+}
+
 var listScheduledCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all Organizer scheduled tasks.",
 	Run: func(cmd *cobra.Command, args []string) {
-		schedulers.ListScheduledTasks()
+		tasks := schedulers.GetScheduledTasks()
+		fmt.Print(tasks)
 	},
 }
 
@@ -133,4 +155,5 @@ func init() {
 		BoolVarP(&monthly, "monthly", "m", false, "Schedule the command monthly")
 
 	rootCmd.AddCommand(listScheduledCmd)
+	rootCmd.AddCommand(tuiCommand)
 }

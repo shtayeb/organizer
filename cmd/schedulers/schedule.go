@@ -102,15 +102,17 @@ func scheduleUnixCommand(command string, scheduleType string) {
 }
 
 // List scheduled commands
-func ListScheduledTasks() {
+func GetScheduledTasks() string {
+	tasks := "Tasks not found"
 	switch runtime.GOOS {
 	case "windows":
-		listWindowsTasks()
+		tasks = listWindowsTasks()
 	case "linux", "darwin":
-		listUnixTasks()
+		tasks = listUnixTasks()
 	default:
 		log.Println("Unsupported operating system")
 	}
+	return tasks
 }
 
 func printTasksByMarker(tasksOutput string) {
@@ -145,29 +147,27 @@ func printTasksByMarker(tasksOutput string) {
 	}
 }
 
-func listWindowsTasks() {
+func listWindowsTasks() string {
 	// Use schtasks to list tasks on Windows
 	// /TN "OrganizerScheduledTask"
 	cmd := exec.Command("schtasks", "/query", "/fo", "csv", "/v")
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Printf("Error listing tasks on Windows: %v\n", err)
-		return
+		return fmt.Sprintf("Error listing tasks on Windows: %v\n", err)
 	}
 
 	// fmt.Printf("Scheduled Tasks on Windows:\n%s\n", output)
-	printTasksByMarker(string(output))
+	// printTasksByMarker(string(output))
+	return string(output)
 }
 
-func listUnixTasks() {
+func listUnixTasks() string {
 	// Use atq to list tasks on Linux/macOS
 	cmd := exec.Command("atq")
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Printf("Error listing tasks on Linux/macOS: %v\n", err)
-		return
+		return fmt.Sprintf("Error listing tasks on Linux/macOS: %v\n", err)
 	}
 
-	fmt.Printf("Scheduled Tasks on Linux/macOS:\n%s\n", output)
-	// printTasksByMarker(string(output))
+	return fmt.Sprintf("Scheduled Tasks on Linux/macOS:\n%s\n", output)
 }
