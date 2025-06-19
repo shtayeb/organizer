@@ -1,11 +1,13 @@
 package cmd
 
 import (
+	"context"
 	"io"
 	"log"
 	"os"
 	"path/filepath"
 
+	"github.com/charmbracelet/fang"
 	"github.com/shtayeb/organizer/cmd/organizers"
 	"github.com/shtayeb/organizer/cmd/schedulers"
 	"github.com/spf13/cobra"
@@ -107,8 +109,7 @@ func Execute() {
 	log.SetPrefix("ORGANIZER CLI: ")
 
 	// Execute the command
-	cmdErr := rootCmd.Execute()
-	if cmdErr != nil {
+	if err := fang.Execute(context.TODO(), rootCmd); err != nil {
 		os.Exit(1)
 	}
 }
